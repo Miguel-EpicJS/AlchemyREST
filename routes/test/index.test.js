@@ -23,6 +23,13 @@ describe('REST /items', () => {
 	    });
     });
 
+    it('GET /items/size => total of items', () => {
+    	return request(app)
+	    .get('/items/size')
+	    .expect('Content-Type', /json/)
+	    .expect(200);
+    });
+
     it('GET /items/:id => one item', () => {
 	return request(app)
 	    .get("/items/0")
@@ -80,6 +87,7 @@ describe('REST /items', () => {
 			name: "Cold Heavenly Iron",
 			tier: expect.any(Number),
 			stars: expect.any(Number),
+			deleted: false
 		    })
 		);
 	    });
@@ -102,9 +110,17 @@ describe('REST /items', () => {
 			name: "Cold Heavenly Iron",
 			tier: 9,
 			stars: 7, 
+			deleted: false
 		    })
 		);
 	    });
+    });
+
+    it('DELETE /items/:id => soft delete', () => {
+    	return request(app)
+	    .delete('/items/0')
+	    .expect('Content-Type', /json/)
+	    .expect(201);
     });
 
 });

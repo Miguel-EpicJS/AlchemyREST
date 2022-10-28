@@ -2,16 +2,22 @@ const express = require('express');
 const createError = require('http-errors');
 const router = express.Router();
 
-const items = [{id: 0, name: "Grass", tier: 1, stars: 2}];
+const items = [{id: 0, name: "Grass", tier: 1, stars: 2, deleted: false}];
 
 router.get('/', (req, res) => {
-    res.json(items);
+    const newItems = items.filter( ( item ) => { return !item.deleted } );
+    res.json(newItems);
+});
+
+router.get('/size', (req, res) => {
+    const newItems = items.filter( ( item ) => { return !item.deleted } );
+    res.json(newItems.length);
 });
 
 router.get('/:id', (req, res) => {
     const item = items[req.params.id];
 
-    if(!item) {	
+    if(!item || item.deleted) {	
 	res.status(404).send({ error: 'Item Not Found', statusCode: 404});
     }
 
@@ -30,6 +36,7 @@ router.post('/', (req, res) => {
 	name: body.name,
 	tier: body.tier, 
 	stars: body.stars,
+	deleted: false,
     }
 
     items.push(newItem);
@@ -44,7 +51,7 @@ router.put('/:id', (req, res) => {
     }
 
     const oldItem = items[req.params.id];
-    if(!oldItem) {
+    if(!oldItem || oldItem.deleted) {
 	res.status(404).send({ error: 'Item Not Found', statusCode: 404});
     }
     const newItem = {...oldItem, ...body};
@@ -53,7 +60,20 @@ router.put('/:id', (req, res) => {
 
     res.status(201).json(newItem);
 
+});
 
+router.delete('/:id', (req, res) => {
+    const { body } = req;
+
+    const item = items[req.params.id];
+
+    if(!item || item.deleted) {	
+	res.status(404).send({ error: 'Item Not Found', statusCode: 404});
+    }
+
+    items[req.params.id].deleted = true;
+
+    res.status(201).send( { message: "Deleted", statusCode: 201 } );
 });
 
 module.exports = router;
