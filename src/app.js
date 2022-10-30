@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 
-const itemsRoute = require('./routes/index');
+const itemsRoute = require('./routes/index.js');
 
 app.use(express.urlencoded({ extended: false }));
 
