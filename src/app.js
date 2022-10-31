@@ -1,12 +1,12 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 
-const itemsRoute = require('./routes/index.js');
+const {itemsRoutes} = require('./routes/index.js');
 
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.json());
 
-app.use('/items', itemsRoute);
+app.use('/items', itemsRoutes);
 
 module.exports = app;
