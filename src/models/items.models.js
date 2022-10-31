@@ -26,6 +26,14 @@ const getItem = (id) => {
     }
 };
 
+const createItem = (props) => {
+    items.push({
+	...props,
+	id: items.length - 1,
+    });
+    return items.at(-1);
+};
+
 const deleteItem = (id) => {
     let objIndex = items.findIndex((el) => el.id == id);
     items[objIndex].deleted = false;
@@ -39,4 +47,4 @@ const updateItem = (id, props) => {
     return items[objIndex];
 };
 
-module.exports =  {items, getItems, getItem, deleteItem, updateItem};
+module.exports =  {items, getItems, getItem, deleteItem, updateItem, createItem};
