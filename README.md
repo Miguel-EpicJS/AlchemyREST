@@ -1,6 +1,6 @@
 # Alchemy REST
 
-In the future I project to make this repo the backend of an Alchemy based game, but for now I'm using it to train building REST api's, tests and many other things.
+In the future I project to make this repo the backend of an Alchemy based rpg, but for now I'm using it to train building REST api's, tests and many other things.
 
 ## Current routes:
 
